@@ -1,0 +1,38 @@
+# rapid
+
+-- Index for jobname lookups (LIKE, equality)
+CREATE INDEX idx_db_part_jobname ON db_part (jobname);
+
+-- Index for cabnum sorting/filtering
+CREATE INDEX idx_db_part_cabnum ON db_part (cabnum);
+
+-- Index for lid (location/station filtering)
+CREATE INDEX idx_db_part_lid ON db_part (lid);
+
+-- Index for partid (primary key, uniqueness, and fast lookup)
+CREATE INDEX idx_db_part_partid ON db_part (partid);
+
+-- Index for workorder (if you filter by workorder)
+CREATE INDEX idx_db_part_workorder ON db_part (workorder);
+
+-- Index for jobinstalldate in db_nsjob (for JOINs and ORDER BY)
+CREATE INDEX idx_db_nsjob_jobinstalldate ON db_nsjob (jobinstalldate);
+
+-- Index for name in db_nsjob (for JOINs)
+CREATE INDEX idx_db_nsjob_name ON db_nsjob (name);
+
+
+
+-- For Q division jobs
+CREATE INDEX idx_db_part_jobname_q ON db_part (jobname)
+WHERE jobname LIKE 'Q%' OR jobname LIKE 'RQ%';
+
+-- For V division jobs
+CREATE INDEX idx_db_part_jobname_v ON db_part (jobname)
+WHERE jobname LIKE 'V%' OR jobname LIKE 'RV%';
+
+-- For O division jobs (if used)
+CREATE INDEX idx_db_part_jobname_o ON db_part (jobname)
+WHERE jobname LIKE 'O%' OR jobname LIKE 'RO%';
+
+CREATE INDEX idx_db_part_jobname_cabnum ON db_part (jobname, cabnum);
